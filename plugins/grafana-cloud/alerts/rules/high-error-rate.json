@@ -2,6 +2,19 @@
 	"name": "High Error Rate",
 	"interval": "10s",
 	"rules": [{
+		"expr": "",
+		"for": "11s",
+		"labels": {
+			"app": "ecommerce",
+			"severity": "3"
+		},
+		"annotations": {
+			"SLO": "1.00%",
+			"Value": "{{ humanizePercentage $values.B.Value }}",
+			"__dashboardUid__": "services-overview",
+			"__panelId__": "42",
+			"summary": "High Error Rate - {{ $labels.service_name }}"
+		},
 		"grafana_alert": {
 			"title": "High Error Rate",
 			"condition": "C",
@@ -104,20 +117,7 @@
 					"refId": "C",
 					"type": "threshold"
 				}
-			}],
-			"uid": "qD52C9TVk"
-		},
-		"for": "11s",
-		"annotations": {
-			"SLO": "1.00%",
-			"Value": "{{ humanizePercentage $values.B.Value }}",
-			"__dashboardUid__": "services-overview",
-			"__panelId__": "42",
-			"summary": "High Error Rate - {{ $labels.service_name }}"
-		},
-		"labels": {
-			"app": "ecommerce",
-			"severity": "3"
+			}]
 		}
 	}]
 }

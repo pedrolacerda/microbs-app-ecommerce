@@ -16,8 +16,6 @@
 			"summary": "High Latency - {{ $labels.service_name }}"
 		},
 		"grafana_alert": {
-			"id": 2,
-			"orgId": 1,
 			"title": "High Latency",
 			"condition": "B",
 			"data": [{
@@ -119,12 +117,7 @@
 					"type": "math"
 				}
 			}],
-			"updated": "2023-01-27T17:56:42Z",
 			"intervalSeconds": 10,
-			"version": 2,
-			"uid": "IRKfr9TVk",
-			"namespace_uid": "FiBFcso4z",
-			"namespace_id": 1,
 			"rule_group": "ecommerce",
 			"no_data_state": "OK",
 			"exec_err_state": "Error"
