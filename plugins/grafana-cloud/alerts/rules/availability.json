@@ -1,0 +1,183 @@
+{
+	"name": "Availability",
+	"interval": "10s",
+	"rules": [{
+		"grafana_alert": {
+			"title": "Availability",
+			"condition": "F",
+			"no_data_state": "OK",
+			"exec_err_state": "Error",
+			"data": [{
+				"refId": "A",
+				"queryType": "",
+				"relativeTimeRange": {
+					"from": 60,
+					"to": 0
+				},
+				"datasourceUid": "grafanacloud-prom",
+				"model": {
+					"datasource": {
+						"type": "prometheus",
+						"uid": "grafanacloud-prom"
+					},
+					"editorMode": "code",
+					"expr": "label_replace(\n  sum_over_time(\n    (\n      ceil(\n        sum by (instance, job) (increase(probe_all_success_sum{}[5m]))\n        /\n        sum by (instance, job) (increase(probe_all_success_count{}[5m]))\n      )\n    )[$__range:]\n  )\n  /\n  count_over_time(\n    (\n        sum by (instance, job) (increase(probe_all_success_count{}[5m]))\n    )[$__range:]\n  )\n, \"service_name\", \"$1\", \"job\", \"ecommerce-(.*)\")\n\n",
+					"hide": false,
+					"intervalMs": 1000,
+					"legendFormat": "__auto",
+					"maxDataPoints": 43200,
+					"range": true,
+					"refId": "A"
+				}
+			}, {
+				"refId": "B",
+				"queryType": "",
+				"relativeTimeRange": {
+					"from": 60,
+					"to": 0
+				},
+				"datasourceUid": "grafanacloud-prom",
+				"model": {
+					"datasource": {
+						"type": "prometheus",
+						"uid": "grafanacloud-prom"
+					},
+					"editorMode": "code",
+					"expr": "label_replace(\n  sum by (instance, job) (\n    increase(probe_all_success_sum{}[$__range])\n  ) /\n  sum by (instance, job) (\n    increase(probe_all_success_count{}[$__range])\n  )\n,  \"service_name\", \"$1\", \"job\", \"ecommerce-(.*)\")",
+					"hide": false,
+					"intervalMs": 1000,
+					"legendFormat": "__auto",
+					"maxDataPoints": 43200,
+					"range": true,
+					"refId": "B"
+				}
+			}, {
+				"refId": "C",
+				"queryType": "",
+				"relativeTimeRange": {
+					"from": 300,
+					"to": 0
+				},
+				"datasourceUid": "-100",
+				"model": {
+					"conditions": [{
+						"evaluator": {
+							"params": [],
+							"type": "gt"
+						},
+						"operator": {
+							"type": "and"
+						},
+						"query": {
+							"params": ["B"]
+						},
+						"reducer": {
+							"params": [],
+							"type": "last"
+						},
+						"type": "query"
+					}],
+					"datasource": {
+						"type": "__expr__",
+						"uid": "-100"
+					},
+					"expression": "A",
+					"hide": false,
+					"intervalMs": 1000,
+					"maxDataPoints": 43200,
+					"reducer": "mean",
+					"refId": "C",
+					"type": "reduce"
+				}
+			}, {
+				"refId": "E",
+				"queryType": "",
+				"relativeTimeRange": {
+					"from": 300,
+					"to": 0
+				},
+				"datasourceUid": "-100",
+				"model": {
+					"conditions": [{
+						"evaluator": {
+							"params": [0, 0],
+							"type": "gt"
+						},
+						"operator": {
+							"type": "and"
+						},
+						"query": {
+							"params": []
+						},
+						"reducer": {
+							"params": [],
+							"type": "avg"
+						},
+						"type": "query"
+					}],
+					"datasource": {
+						"name": "Expression",
+						"type": "__expr__",
+						"uid": "__expr__"
+					},
+					"expression": "B",
+					"intervalMs": 1000,
+					"maxDataPoints": 43200,
+					"reducer": "mean",
+					"refId": "E",
+					"type": "reduce"
+				}
+			}, {
+				"refId": "F",
+				"queryType": "",
+				"relativeTimeRange": {
+					"from": 600,
+					"to": 0
+				},
+				"datasourceUid": "-100",
+				"model": {
+					"conditions": [{
+						"evaluator": {
+							"params": [0, 0],
+							"type": "gt"
+						},
+						"operator": {
+							"type": "and"
+						},
+						"query": {
+							"params": []
+						},
+						"reducer": {
+							"params": [],
+							"type": "avg"
+						},
+						"type": "query"
+					}],
+					"datasource": {
+						"name": "Expression",
+						"type": "__expr__",
+						"uid": "__expr__"
+					},
+					"expression": "$C < .9995 || $E < .9995",
+					"intervalMs": 1000,
+					"maxDataPoints": 43200,
+					"refId": "F",
+					"type": "math"
+				}
+			}]
+		},
+		"for": "11s",
+		"annotations": {
+			"SLO": "99.95%",
+			"Value": "{{ humanizePercentage $values.C.Value }}",
+			"ValueNotes": "{{ humanizePercentage $values.C.Value }} uptime, {{ humanizePercentage $values.E.Value }} reachability",
+			"__dashboardUid__": "services-overview",
+			"__panelId__": "34",
+			"summary": "Degraded Availability - {{ $labels.service_name }}"
+		},
+		"labels": {
+			"app": "ecommerce",
+			"severity": "1"
+		}
+	}]
+}

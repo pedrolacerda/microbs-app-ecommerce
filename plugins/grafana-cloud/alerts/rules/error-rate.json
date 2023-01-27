@@ -1,5 +1,5 @@
 {
-	"name": "High Error Rate",
+	"name": "Error Rate",
 	"interval": "10s",
 	"rules": [{
 		"expr": "",
@@ -16,7 +16,7 @@
 			"summary": "High Error Rate - {{ $labels.service_name }}"
 		},
 		"grafana_alert": {
-			"title": "High Error Rate",
+			"title": "Error Rate",
 			"condition": "C",
 			"no_data_state": "OK",
 			"exec_err_state": "Error",

@@ -1,5 +1,5 @@
 {
-	"name": "High Latency",
+	"name": "Latency",
 	"interval": "10s",
 	"rules": [{
 		"expr": "",
@@ -10,13 +10,15 @@
 		},
 		"annotations": {
 			"SLO": "2.0s",
+			"SLONotes": "95th Percentile",
 			"Value": "{{ humanizeDuration $values.C.Value }}",
+			"ValueNotes": "95th Percentile",
 			"__dashboardUid__": "services-overview",
 			"__panelId__": "7",
 			"summary": "High Latency - {{ $labels.service_name }}"
 		},
 		"grafana_alert": {
-			"title": "High Latency",
+			"title": "Latency",
 			"condition": "B",
 			"data": [{
 				"refId": "A",
