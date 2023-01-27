@@ -1,5 +1,5 @@
 {{ define "ecommerce-alert" }}
-*<{{ .DashboardURL }}?var-services={{ .Labels.service_name }}|{{ .Labels.service_name }}>*
+*<{{ .DashboardURL }}&var-services={{ .Labels.service_name }}|{{ .Labels.service_name }}>*
 > SLO: *{{ .Annotations.SLO }}* _(95th percentile)_
 > Observed: *{{ .Annotations.Value }}* _(95th percentile)_
-> Investigate: {{ if gt (len .DashboardURL ) 0 }}<{{ .DashboardURL }}?var-services={{ .Labels.service_name }}|Service overview>{{ end }}{{ end }}
+> Investigate: {{ if gt (len .DashboardURL ) 0 }}<{{ .DashboardURL }}&var-services={{ .Labels.service_name }}|Service overview>{{ end }}{{ end }}

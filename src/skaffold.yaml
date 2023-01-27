@@ -81,6 +81,17 @@ profiles:
       manifests:
       - ./variants/bind-localhost/*/k8s/*.yaml
 
+- name: nginx-failure
+  build:
+    artifacts:
+    - image: microbs-ecommerce-api-gateway
+      docker:
+        dockerfile: ./variants/nginx-failure/api-gateway-nginx/Dockerfile
+  deploy:
+    kubectl:
+      manifests:
+      - ./variants/nginx-failure/*/k8s/*.yaml
+
 - name: traffic-spike
   deploy:
     kubectl:
