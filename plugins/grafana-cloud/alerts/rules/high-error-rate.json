@@ -1,25 +1,12 @@
 {
-	"name": "High Latency",
+	"name": "High Error Rate",
 	"interval": "10s",
 	"rules": [{
-		"expr": "",
-		"for": "11s",
-		"labels": {
-			"app": "ecommerce",
-			"severity": "2"
-		},
-		"annotations": {
-			"SLO": "2.0s",
-			"Value": "{{ humanizeDuration $values.C.Value }}",
-			"__dashboardUid__": "services-overview",
-			"__panelId__": "7",
-			"summary": "High Latency - {{ $labels.service_name }}"
-		},
 		"grafana_alert": {
-			"id": 2,
-			"orgId": 1,
-			"title": "High Latency",
-			"condition": "B",
+			"title": "High Error Rate",
+			"condition": "C",
+			"no_data_state": "OK",
+			"exec_err_state": "Error",
 			"data": [{
 				"refId": "A",
 				"queryType": "",
@@ -29,13 +16,15 @@
 				},
 				"datasourceUid": "grafanacloud-prom",
 				"model": {
+					"datasource": {
+						"type": "prometheus",
+						"uid": "grafanacloud-prom"
+					},
 					"editorMode": "code",
-					"exemplar": false,
-					"expr": "histogram_quantile(.95, sum(rate(traces_spanmetrics_latency_bucket{}[1m])) by (le, service_name)) > 2000 < 86400000",
+					"expr": "sum(rate(traces_spanmetrics_calls_total{event_outcome=\"failure\"}[1m])) by (le, service_name)\n/\nsum(rate(traces_spanmetrics_calls_total{}[1m])) by (le, service_name)",
 					"hide": false,
-					"interval": "",
 					"intervalMs": 1000,
-					"legendFormat": "",
+					"legendFormat": "__auto",
 					"maxDataPoints": 43200,
 					"range": true,
 					"refId": "A"
@@ -51,24 +40,24 @@
 				"model": {
 					"conditions": [{
 						"evaluator": {
-							"params": [2, 0],
+							"params": [],
 							"type": "gt"
 						},
 						"operator": {
 							"type": "and"
 						},
 						"query": {
-							"params": ["A"]
+							"params": ["B"]
 						},
 						"reducer": {
 							"params": [],
-							"type": "avg"
+							"type": "last"
 						},
 						"type": "query"
 					}],
 					"datasource": {
 						"type": "__expr__",
-						"uid": "__expr__"
+						"uid": "-100"
 					},
 					"expression": "A",
 					"hide": false,
@@ -76,58 +65,59 @@
 					"maxDataPoints": 43200,
 					"reducer": "mean",
 					"refId": "B",
-					"settings": {
-						"mode": ""
-					},
 					"type": "reduce"
 				}
 			}, {
 				"refId": "C",
 				"queryType": "",
 				"relativeTimeRange": {
-					"from": 600,
+					"from": 60,
 					"to": 0
 				},
 				"datasourceUid": "-100",
 				"model": {
 					"conditions": [{
 						"evaluator": {
-							"params": [0, 0],
+							"params": [0.001],
 							"type": "gt"
 						},
 						"operator": {
 							"type": "and"
 						},
 						"query": {
-							"params": []
+							"params": ["C"]
 						},
 						"reducer": {
 							"params": [],
-							"type": "avg"
+							"type": "last"
 						},
 						"type": "query"
 					}],
 					"datasource": {
 						"type": "__expr__",
-						"uid": "__expr__"
+						"uid": "-100"
 					},
-					"expression": "$B / 1000.0",
+					"expression": "B",
 					"hide": false,
 					"intervalMs": 1000,
 					"maxDataPoints": 43200,
 					"refId": "C",
-					"type": "math"
+					"type": "threshold"
 				}
 			}],
-			"updated": "2023-01-27T17:56:42Z",
-			"intervalSeconds": 10,
-			"version": 2,
-			"uid": "IRKfr9TVk",
-			"namespace_uid": "FiBFcso4z",
-			"namespace_id": 1,
-			"rule_group": "ecommerce",
-			"no_data_state": "OK",
-			"exec_err_state": "Error"
+			"uid": "qD52C9TVk"
+		},
+		"for": "11s",
+		"annotations": {
+			"SLO": "1.00%",
+			"Value": "{{ humanizePercentage $values.B.Value }}",
+			"__dashboardUid__": "services-overview",
+			"__panelId__": "42",
+			"summary": "High Error Rate - {{ $labels.service_name }}"
+		},
+		"labels": {
+			"app": "ecommerce",
+			"severity": "3"
 		}
 	}]
 }

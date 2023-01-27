@@ -3,7 +3,10 @@
   "routes": [{
     "receiver": "Slack",
     "object_matchers": [
-      ["alertname", "=", "High Latency"]
+      ["app", "=", "ecommerce"]
+    ],
+    "group_by": [
+      "alertname"
     ],
     "group_wait": "2s",
     "group_interval": "2s",
