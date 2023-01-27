@@ -173,7 +173,7 @@
 			"ValueNotes": "{{ humanizePercentage $values.C.Value }} uptime, {{ humanizePercentage $values.E.Value }} reachability",
 			"__dashboardUid__": "services-overview",
 			"__panelId__": "34",
-			"summary": "Degraded Availability - {{ $labels.service_name }}"
+			"summary": "Low Availability - {{ $labels.service_name }}"
 		},
 		"labels": {
 			"app": "ecommerce",
