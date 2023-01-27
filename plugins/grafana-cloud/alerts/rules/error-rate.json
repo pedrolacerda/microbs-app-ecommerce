@@ -16,7 +16,7 @@
 			"summary": "High Error Rate - {{ $labels.service_name }}"
 		},
 		"grafana_alert": {
-			"title": "Error Rate",
+			"title": "High Error Rate",
 			"condition": "C",
 			"no_data_state": "OK",
 			"exec_err_state": "Error",

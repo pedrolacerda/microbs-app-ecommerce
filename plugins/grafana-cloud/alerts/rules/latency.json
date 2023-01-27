@@ -18,7 +18,7 @@
 			"summary": "High Latency - {{ $labels.service_name }}"
 		},
 		"grafana_alert": {
-			"title": "Latency",
+			"title": "High Latency",
 			"condition": "B",
 			"data": [{
 				"refId": "A",

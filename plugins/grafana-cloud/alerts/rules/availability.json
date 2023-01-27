@@ -3,7 +3,7 @@
 	"interval": "10s",
 	"rules": [{
 		"grafana_alert": {
-			"title": "Availability",
+			"title": "Low Availability",
 			"condition": "F",
 			"no_data_state": "OK",
 			"exec_err_state": "Error",
