@@ -156,6 +156,7 @@ def healthz():
 # Unhandled exceptions
 @app.errorhandler(403)
 @app.errorhandler(Exception)
+@app.errorhandler(RuntimeError)
 def handle_exception(e):
     logger.exception(e, extra={
         'tags': [

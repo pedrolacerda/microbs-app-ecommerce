@@ -92,6 +92,17 @@ profiles:
       manifests:
       - ./variants/nginx-failure/*/k8s/*.yaml
 
+- name: sql-syntax-error
+  build:
+    artifacts:
+    - image: microbs-ecommerce-product
+      docker:
+        dockerfile: ./variants/sql-syntax-error/product/Dockerfile
+  deploy:
+    kubectl:
+      manifests:
+      - ./services/product/k8s/*.yaml
+
 - name: traffic-spike
   deploy:
     kubectl:
