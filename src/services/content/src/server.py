@@ -9,9 +9,6 @@ from flask import jsonify, request, Response
 # Service packages
 from common import app, config, logger
 
-# Configure content source
-CONTENT_BASE_PATH = "https://storage.googleapis.com/cdn.microbs.io/apps/ecommerce/main/content/images"
-
 
 ####  HTTP Handlers  ###########################################################
 
@@ -22,7 +19,7 @@ def get_content(filename):
     """
     response = requests.request(
         method=request.method,
-        url="{}/{}".format(CONTENT_BASE_PATH, filename),
+        url="{}/{}".format(config.get('APPS_ECOMMERCE_CONTENT_BASE_PATH'), filename),
         headers={ k: v for (k, v) in request.headers if k != 'Host' },
         data=request.get_data(),
         cookies=request.cookies,

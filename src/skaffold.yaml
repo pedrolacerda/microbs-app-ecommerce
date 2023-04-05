@@ -79,7 +79,7 @@ profiles:
   deploy:
     kubectl:
       manifests:
-      - ./variants/bind-localhost/*/k8s/*.yaml
+      - ./services/api-gateway/k8s/*.yaml
 
 - name: nginx-failure
   build:

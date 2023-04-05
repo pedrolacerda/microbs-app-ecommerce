@@ -20,6 +20,7 @@ import traceback
 ####  Configuration  ###########################################################
 
 config = {}
+config['APPS_ECOMMERCE_CONTENT_BASE_PATH'] = os.environ.get('APPS_ECOMMERCE_CONTENT_BASE_PATH') or 'https://storage.googleapis.com/cdn.microbs.io/apps/ecommerce/main/content/images'
 config['DEBUG'] = os.environ.get('DEBUG') or False
 config['DEPLOYMENT_ENVIRONMENT'] = os.environ.get('DEPLOYMENT_ENVIRONMENT') or 'development'
 config['LOG_LEVEL'] = 'DEBUG' if config.get('DEBUG') else (os.environ.get('LOG_LEVEL') or 'INFO').upper()
